@@ -5,6 +5,7 @@
 *.obj
 
 # Compiled Dynamic libraries
+*.so
 *.dylib
 *.dll
 
@@ -12,6 +13,7 @@
 *.lai
 *.la
 *.a
+*.lib
 
 # Executables
 *.exe
