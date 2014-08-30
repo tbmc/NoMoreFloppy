@@ -19,3 +19,9 @@
 
 # Additional files
 *.user
+*.ilk
+*.pdb
+*.rc
+*.res
+*.manifest
+Makefile*
