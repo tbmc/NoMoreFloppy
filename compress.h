@@ -1,23 +1,28 @@
 #ifndef COMPRESS_H
 #define COMPRESS_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef unsigned int uInt;
 
-void setCompressionLevel(int level);
+class Compress {
 
-void compress_char_array(const char *in, uInt inSize,
-              char *out, uInt outMaxSize, uInt *outSize);
+private:
+    int compression_level = -1;
 
-void uncompress_char_array(const char *in, uInt inSize,
-              char *out, uInt outMaxSize, uInt *outSize);
+public:
+    Compress();
+    void setCompressionLevel(int level);
 
-#ifdef __cplusplus
-}
-#endif
+    void compress_char_array(const char *in, uInt inSize,
+                  char *out, uInt outMaxSize, uInt *outSize);
+
+    void uncompress_char_array(const char *in, uInt inSize,
+                  char *out, uInt outMaxSize, uInt *outSize);
+
+};
+
+
+
+
 
 
 #endif // COMPRESS_H

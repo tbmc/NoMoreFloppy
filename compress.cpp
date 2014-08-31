@@ -3,20 +3,14 @@
 // zlib
 #include "miniz.c"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-int compression_level = -1;
-
-void setCompressionLevel(int level)
+void Compress::setCompressionLevel(int level)
 {
     if(!(-1 <= level && level <= 10))
         return;
     compression_level = level;
 }
 
-void compress_char_array(const char *in, uInt inSize,
+void Compress::compress_char_array(const char *in, uInt inSize,
         char *out, uInt outMaxSize, uInt *outSize)
 {
     z_stream defstream;
@@ -36,7 +30,7 @@ void compress_char_array(const char *in, uInt inSize,
     *outSize = defstream.total_out;
 }
 
-void uncompress_char_array(const char *in, uInt inSize,
+void Compress::uncompress_char_array(const char *in, uInt inSize,
         char *out, uInt outMaxSize, uInt *outSize)
 {
     z_stream infstream;
@@ -59,14 +53,4 @@ void uncompress_char_array(const char *in, uInt inSize,
 
 
 
-
-
-
-
-
-
-
-#ifdef __cplusplus
-}
-#endif
 

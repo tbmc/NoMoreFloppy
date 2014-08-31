@@ -5,7 +5,7 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     miniz.c \
-    compress.c
+    compress.cpp
 
 OTHER_FILES += \
     .gitignore
