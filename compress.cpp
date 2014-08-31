@@ -3,10 +3,15 @@
 // zlib
 #include "miniz.c"
 
+Compress::Compress()
+{
+
+}
+
 void Compress::setCompressionLevel(int level)
 {
-    if(!((MINIMUM_COMPRESSION_LEVEL <= level &&
-         level <= MAXIMUM_COMPRESSION_LEVEL) ||
+    if(!((MIN_COMPRESSION_LEVEL <= level &&
+         level <= MAX_COMPRESSION_LEVEL) ||
          level == DEFAULT_COMPRESSION_LEVEL))
         return;
     compression_level = level;

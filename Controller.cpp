@@ -4,6 +4,7 @@ using namespace sf;
 
 Controller::Controller()
 {
+
 }
 
 Controller::~Controller()
@@ -45,8 +46,10 @@ STATUT Controller::sendData(const char *data, uInt32 size)
 
 STATUT Controller::receiveData(char *data, uInt32 &size)
 {
-    if(socket.receive(data, MAX_PACKET_SIZE, size) != Socket::Done)
+    size_t taille;
+    if(socket.receive(data, (size_t)MAX_PACKET_SIZE, taille) != Socket::Done)
         return ERROR_SOCKET;
+    size = taille;
     return Ok;
 }
 
