@@ -55,7 +55,7 @@ STATUT Controller::receiveData(char *data, uInt32 &size)
 
 STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression_level)
 {
-
+    return ERROR_BUFFEROVERFLOW;
 }
 
 

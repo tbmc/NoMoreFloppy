@@ -16,7 +16,7 @@
 #define PACKET_FUCKER (3)
 
 typedef unsigned short uShort;
-typedef u_int32_t uInt32;
+typedef uint32_t uInt32;
 #define MAX_PACKET_SIZE (67108864)
 #define DEFAULT_PACKET_SIZE (1048576)
 

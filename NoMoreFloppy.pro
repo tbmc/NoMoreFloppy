@@ -6,7 +6,8 @@ CONFIG -= qt
 SOURCES += main.cpp \
     miniz.c \
     compress.cpp \
-    Controller.cpp
+    Controller.cpp \
+    vueconsole.cpp
 
 OTHER_FILES += \
     .gitignore
@@ -15,15 +16,7 @@ OTHER_FILES += \
 
 win32
 {
-    equals(QMAKE_HOST.arch, "x86")
-    {
-        LIBS += -L"libs/SFML-2.1/vc32bits"
-    }
-
-    equals(QMAKE_HOST.arch, "x86_64")
-    {
-        LIBS += -L"libs/SFML-2.1/vc64bits"
-    }
+    LIBS += -L"libs/SFML-2.1/vc64bits"
 }
 
 linux-g++
@@ -43,4 +36,5 @@ linux-g++
 
 HEADERS += \
     compress.h \
-    Controller.h
+    Controller.h \
+    vueconsole.h
