@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     miniz.c \
-    compress.cpp
+    compress.cpp \
+    Controller.cpp
 
 OTHER_FILES += \
     .gitignore
@@ -41,4 +42,5 @@ linux-g++
     LIBS += -lsfml-network
 
 HEADERS += \
-    compress.h
+    compress.h \
+    Controller.h
