@@ -5,7 +5,9 @@
 
 void Compress::setCompressionLevel(int level)
 {
-    if(!(-1 <= level && level <= 10))
+    if(!((MINIMUM_COMPRESSION_LEVEL <= level &&
+         level <= MAXIMUM_COMPRESSION_LEVEL) ||
+         level == DEFAULT_COMPRESSION_LEVEL))
         return;
     compression_level = level;
 }

@@ -50,7 +50,10 @@ STATUT Controller::receiveData(char *data, uInt32 &size)
     return Ok;
 }
 
+STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression_level)
+{
 
+}
 
 
 

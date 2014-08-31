@@ -1,12 +1,16 @@
 #ifndef COMPRESS_H
 #define COMPRESS_H
 
+#define DEFAULT_COMPRESSION_LEVEL (-1)
+#define MIN_COMPRESSION_LEVEL (0)
+#define MAX_COMPRESSION_LEVEL (10)
+
 typedef unsigned int uInt;
 
 class Compress {
 
 private:
-    int compression_level = -1;
+    int compression_level = DEFAULT_COMPRESSION_LEVEL;
 
 public:
     Compress();
