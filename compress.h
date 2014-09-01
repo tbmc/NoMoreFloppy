@@ -7,6 +7,12 @@
 
 typedef unsigned int uInt;
 
+enum COMP_S
+{
+    NP,
+    Error_P
+};
+
 class Compress {
 
 private:
@@ -14,12 +20,12 @@ private:
 
 public:
     Compress();
-    void setCompressionLevel(int level);
+    COMP_S setCompressionLevel(int level);
 
-    void compress_char_array(const char *in, uInt inSize,
+    COMP_S compress_char_array(const char *in, uInt inSize,
                   char *out, uInt outMaxSize, uInt *outSize);
 
-    void uncompress_char_array(const char *in, uInt inSize,
+    COMP_S uncompress_char_array(const char *in, uInt inSize,
                   char *out, uInt outMaxSize, uInt *outSize);
 
 };

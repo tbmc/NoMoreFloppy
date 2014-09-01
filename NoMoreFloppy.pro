@@ -6,7 +6,8 @@ CONFIG -= qt
 SOURCES += main.cpp \
     miniz.c \
     compress.cpp \
-    Controller.cpp
+    Controller.cpp \
+    ChristmasPacket.cpp
 
 OTHER_FILES += \
     .gitignore
@@ -43,4 +44,5 @@ linux-g++
 
 HEADERS += \
     compress.h \
-    Controller.h
+    Controller.h \
+    ChristmasPacket.h

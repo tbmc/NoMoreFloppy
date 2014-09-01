@@ -3,7 +3,7 @@
 int main()
 {
 
-#error TROLLLLLLLL!!!!
+
 
     return 0;
 }
