@@ -6,5 +6,8 @@
 int main()
 {
 
+    VueConsole vue;
+    vue.init();
+
     return 0;
 }

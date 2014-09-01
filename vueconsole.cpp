@@ -2,7 +2,12 @@
 
 VueConsole::VueConsole()
 {
-    int ask;
+
+}
+
+void VueConsole::init()
+{
+    int ask = 0;
     std::cout << "1 - Client\n2 - serveur"<< std::endl;
     while (ask != 1 || ask != 2)
     {
@@ -20,13 +25,22 @@ VueConsole::VueConsole()
         } while(!this->isIpCorrect(ip));
         std::cout << "Chemin du fichier à envoyer :" << std::endl;
         std::cin >> cheminFichier;
-        //this->correctionCheminFichier(cheminFichier);
+        this->correctionCheminFichier(cheminFichier);
 
         std::cout << "Connexion au serveur " << ip << std::endl;
+        controller.connect(ip);
+
+        controller.sendFile(cheminFichier.c_str());
     }
     else
     {
+        std::cout << "Attente d'une connection!" << std::endl;
+        controller.serverWaitConnection();
         std::cout << "Attente du fichier" << std::endl;
+        std::string str;
+        std::cout << "Chemin du dossier : " << std::endl;
+        std::cin >> str;
+        controller.receiveFile(str.c_str());
     }
 
 }
@@ -77,9 +91,9 @@ bool VueConsole::isIpCorrect(char ip[])
     }
     return isCorrect;
 }
-/*
+
 void VueConsole::correctionCheminFichier(std::string chemin)
 {
     std::replace(chemin.begin(), chemin.end(), '\\', '/');
 }
-*/
+
