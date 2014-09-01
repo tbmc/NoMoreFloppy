@@ -8,6 +8,7 @@ SOURCES += main.cpp \
     compress.cpp \
     Controller.cpp \
     ChristmasPacket.cpp
+    vueconsole.cpp
 
 OTHER_FILES += \
     .gitignore
@@ -16,15 +17,7 @@ OTHER_FILES += \
 
 win32
 {
-    equals(QMAKE_HOST.arch, "x86")
-    {
-        LIBS += -L"libs/SFML-2.1/vc32bits"
-    }
-
-    equals(QMAKE_HOST.arch, "x86_64")
-    {
-        LIBS += -L"libs/SFML-2.1/vc64bits"
-    }
+    LIBS += -L"libs/SFML-2.1/vc64bits"
 }
 
 linux-g++
@@ -46,3 +39,4 @@ HEADERS += \
     compress.h \
     Controller.h \
     ChristmasPacket.h
+

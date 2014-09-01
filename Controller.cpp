@@ -103,19 +103,22 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
         return Error_socket;
     }
     char *temp = new char(packetSize);
+    char *name;
     Message message;
     message.data = new char(packetSize * 2);
     packet.readData(message);
-
+    if(message.data[message.dataSize - 1] != '/')
+        strcat(message.data, "/");
+    name = new char(strlen(message.data) + strlen(folderpath) + 10);
+    strcat(name, folderpath);
+    strcat(name, message.data);
 
     delete temp;
     delete message.data;
+    delete name;
     fclose(f);
     return Ok;
 }
-
-
-
 
 
 

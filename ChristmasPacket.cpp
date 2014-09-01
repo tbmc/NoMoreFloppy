@@ -27,4 +27,5 @@ void ChristmasPacket::readData(Message &m) {
     const int a = sizeof(m.type) + sizeof(m.dataSize);
     for(i = 0; i < m.dataSize; i++)
         (m.data)[i] = ((const char*)in)[a + i];
+    (m.data)[m.dataSize] = '\0';
 }
