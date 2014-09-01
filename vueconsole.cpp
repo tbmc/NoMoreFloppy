@@ -9,7 +9,7 @@ void VueConsole::init()
 {
     int ask = 0;
     std::cout << "1 - Client\n2 - serveur"<< std::endl;
-    while (ask != 1 || ask != 2)
+    while (ask != 1 && ask != 2)
     {
         std::cin >> ask;
     }
