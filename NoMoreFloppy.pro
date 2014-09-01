@@ -7,7 +7,11 @@ SOURCES += main.cpp \
     miniz.c \
     compress.cpp \
     Controller.cpp \
+<<<<<<< HEAD
     vueconsole.cpp
+=======
+    ChristmasPacket.cpp
+>>>>>>> 079aef8c533a56ce47ff4d67adb94d94ace1a084
 
 OTHER_FILES += \
     .gitignore
@@ -37,4 +41,8 @@ linux-g++
 HEADERS += \
     compress.h \
     Controller.h \
+<<<<<<< HEAD
     vueconsole.h
+=======
+    ChristmasPacket.h
+>>>>>>> 079aef8c533a56ce47ff4d67adb94d94ace1a084

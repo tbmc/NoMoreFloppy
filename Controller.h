@@ -5,8 +5,10 @@
 #include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "compress.h"
+#include "ChristmasPacket.h"
 
 #define DEFAULT_PORT (25666)
 #define DEFAULT_IP "127.0.0.1"
@@ -20,11 +22,14 @@ typedef uint32_t uInt32;
 #define MAX_PACKET_SIZE (67108864)
 #define DEFAULT_PACKET_SIZE (1048576)
 
-enum STATUT {
+enum STATUT
+{
     Ok,
-    ERROR_PORT,
-    ERROR_SOCKET,
-    ERROR_BUFFEROVERFLOW
+    Error,
+    Error_port,
+    Error_socket,
+    Error_bufferoverflow,
+    Error_file
 };
 
 class Controller {
@@ -32,8 +37,6 @@ class Controller {
 private:
     sf::TcpSocket socket;
     Compress compress;
-    char *temp = 0;
-    uInt32 tempSize = 0;
 
 public:
     Controller();
@@ -44,14 +47,10 @@ public:
     STATUT serverWaitConnection(uShort port = DEFAULT_PORT);
     void disconnect();
 
-    // Envoie et recéption de data
-    STATUT sendData(const char *data, uInt32 size);
-    STATUT receiveData(char *data, uInt32 &size);
-
     //Envoie et réception de fichier
     STATUT sendFile(const char *file, uInt32 packetSize = DEFAULT_PACKET_SIZE,
                     int compression_level = DEFAULT_COMPRESSION_LEVEL);
-
+    STATUT receiveFile(const char *folderpath, uInt32 packetSize = DEFAULT_PACKET_SIZE);
 
 
 

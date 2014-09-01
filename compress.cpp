@@ -5,21 +5,22 @@
 
 Compress::Compress()
 {
-
 }
 
-void Compress::setCompressionLevel(int level)
+COMP_S Compress::setCompressionLevel(int level)
 {
     if(!((MIN_COMPRESSION_LEVEL <= level &&
          level <= MAX_COMPRESSION_LEVEL) ||
          level == DEFAULT_COMPRESSION_LEVEL))
-        return;
+        return Error_P;
     compression_level = level;
+    return NP;
 }
 
-void Compress::compress_char_array(const char *in, uInt inSize,
+COMP_S Compress::compress_char_array(const char *in, uInt inSize,
         char *out, uInt outMaxSize, uInt *outSize)
 {
+    int outDef;
     z_stream defstream;
     defstream.zalloc = Z_NULL;
     defstream.zfree = Z_NULL;
@@ -30,16 +31,25 @@ void Compress::compress_char_array(const char *in, uInt inSize,
     defstream.avail_out = (uInt) outMaxSize;
     defstream.next_out = (Bytef *) out;
 
-    deflateInit(&defstream, compression_level);
-    deflate(&defstream, Z_FINISH);
-    deflateEnd(&defstream);
+    outDef = deflateInit(&defstream, compression_level);
+    if(outDef < 0)
+        return Error_P;
+    outDef = deflate(&defstream, Z_FINISH);
+    if(outDef < 0)
+        return Error_P;
+    outDef = deflateEnd(&defstream);
+    if(outDef < 0)
+        return Error_P;
 
     *outSize = defstream.total_out;
+
+    return NP;
 }
 
-void Compress::uncompress_char_array(const char *in, uInt inSize,
+COMP_S Compress::uncompress_char_array(const char *in, uInt inSize,
         char *out, uInt outMaxSize, uInt *outSize)
 {
+    int outInf;
     z_stream infstream;
     infstream.zalloc = Z_NULL;
     infstream.zfree = Z_NULL;
@@ -50,11 +60,18 @@ void Compress::uncompress_char_array(const char *in, uInt inSize,
     infstream.avail_out = (uInt) outMaxSize;
     infstream.next_out = (Bytef *) out;
 
-    inflateInit(&infstream);
-    inflate(&infstream, Z_NO_FLUSH);
-    inflateEnd(&infstream);
+    outInf = inflateInit(&infstream);
+    if(outInf < 0)
+        return Error_P;
+    outInf = inflate(&infstream, Z_NO_FLUSH);
+    if(outInf < 0)
+        return Error_P;
+    outInf = inflateEnd(&infstream);
+    if(outInf < 0)
+        return Error_P;
 
     *outSize = infstream.total_out;
+    return NP;
 }
 
 
