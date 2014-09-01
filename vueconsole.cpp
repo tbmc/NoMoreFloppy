@@ -20,7 +20,7 @@ VueConsole::VueConsole()
         } while(!this->isIpCorrect(ip));
         std::cout << "Chemin du fichier à envoyer :" << std::endl;
         std::cin >> cheminFichier;
-        this->correctionCheminFichier(cheminFichier);
+        //this->correctionCheminFichier(cheminFichier);
 
         std::cout << "Connexion au serveur " << ip << std::endl;
     }
@@ -77,8 +77,9 @@ bool VueConsole::isIpCorrect(char ip[])
     }
     return isCorrect;
 }
-
+/*
 void VueConsole::correctionCheminFichier(std::string chemin)
 {
     std::replace(chemin.begin(), chemin.end(), '\\', '/');
 }
+*/

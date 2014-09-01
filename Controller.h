@@ -16,6 +16,7 @@
 #define PACKET_DATA (0)
 #define PACKET_INFORMATION (1)
 #define PACKET_FUCKER (3)
+#define PACKET_END (4)
 
 typedef unsigned short uShort;
 typedef uint32_t uInt32;

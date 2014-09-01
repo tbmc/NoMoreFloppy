@@ -10,7 +10,7 @@ class VueConsole
 public:
     VueConsole();
     static bool isIpCorrect(char ip[]);
-    static void correctionCheminFichier(char chemin[]);
+    //static void correctionCheminFichier(char chemin[]);
 };
 
 #endif // VUECONSOLE_H

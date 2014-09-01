@@ -80,6 +80,12 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
             break;
     }
 
+    packet.clear();
+    message.type = PACKET_END;
+    message.dataSize = 0;
+    packet.appendData(message);
+    socket.send(packet);
+
     delete temp;
     delete message.data;
     fclose(f);
@@ -93,9 +99,8 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
 STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
 {
     FILE * f = NULL;
-//    f = fopen(file, "wb");
-//    if(f == NULL)
-//        return Error_file;
+    COMP_S outComp;
+    uInt outSize;
     ChristmasPacket packet;
     Socket::Status status = socket.receive(packet);
     if(status != Socket::Done)
@@ -108,15 +113,44 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
     message.data = new char(packetSize * 2);
     packet.readData(message);
     if(message.data[message.dataSize - 1] != '/')
-        strcat(message.data, "/");
-    name = new char(strlen(message.data) + strlen(folderpath) + 10);
+    {
+        message.data[message.dataSize] = '/';
+        message.dataSize++;
+        message.data[message.dataSize] = '\0';
+    }
+    name = new char(message.dataSize + strlen(folderpath) + 10);
     strcat(name, folderpath);
     strcat(name, message.data);
+    f = fopen(name, "wb");
+    if(f == NULL)
+    {
+        delete temp;
+        delete message.data;
+        delete name;
+        return Error_file;
+    }
+
+    do
+    {
+        status = socket.receive(packet);
+        if(status != Socket::Done)
+            break;
+        packet.readData(message);
+        if(message.type == PACKET_DATA)
+        {
+            outComp = compress.uncompress_char_array(message.data, message.dataSize,
+                                                     temp, packetSize, &outSize);
+            fwrite(temp, 1, outSize, f);
+        }
+    }while(message.type != PACKET_END);
 
     delete temp;
     delete message.data;
     delete name;
+    fflush(f);
     fclose(f);
+    if(status != Socket::Done)
+        return Error;
     return Ok;
 }
 
