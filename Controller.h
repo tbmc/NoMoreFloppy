@@ -52,26 +52,6 @@ public:
                     int compression_level = DEFAULT_COMPRESSION_LEVEL);
     STATUT receiveFile(const char *folderpath, uInt32 packetSize = DEFAULT_PACKET_SIZE);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 #endif // CONTROLLER_H
