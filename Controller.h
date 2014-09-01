@@ -24,7 +24,8 @@
 
 typedef unsigned short uShort;
 typedef uint32_t uInt32;
-#define MAX_PACKET_SIZE (67108864)
+//#define MAX_PACKET_SIZE (67108864)
+#define MAX_PACKET_SIZE (1024)
 #define DEFAULT_PACKET_SIZE (1048576)
 
 enum STATUT

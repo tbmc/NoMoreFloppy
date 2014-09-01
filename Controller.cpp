@@ -68,13 +68,16 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
         return Error_socket;
     }
 
-    char *temp = new char(packetSize);
-    message.data = new char(packetSize * 2);
+    char *temp = new char(packetSize * 5);
+    message.data = new char(packetSize * 5);
     message.type = PACKET_DATA;
 
     while((readSize = fread(temp, 1, packetSize, f)) > 0)
     {
-        outComp = compress.compress_char_array(temp, readSize, message.data, packetSize * 2, &(message.dataSize));
+        printf("%ld %ld\n", readSize, packetSize);
+        outComp = compress.compress_char_array(temp, readSize, message.data,
+                                               packetSize * 2, &(message.dataSize));
+        printf("%ld\n\n", message.dataSize);
         if(outComp != NP)
         {
             printf("Erreur outComp!\n");
