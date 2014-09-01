@@ -11,6 +11,7 @@ public:
     VueConsole();
     static bool isIpCorrect(char ip[]);
     //static void correctionCheminFichier(char chemin[]);
+    static void correctionCheminFichier(std::string fichier);
 };
 
 #endif // VUECONSOLE_H
