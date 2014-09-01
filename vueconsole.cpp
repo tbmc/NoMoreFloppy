@@ -23,13 +23,12 @@ void VueConsole::init()
             std::cout << "Veuillez entrer l'ip du serveur : " << std::endl;
             std::cin >> ip;
         } while(!this->isIpCorrect(ip));
+        controller.connect(ip);
         std::cout << "Chemin du fichier à envoyer :" << std::endl;
         std::cin >> cheminFichier;
         this->correctionCheminFichier(cheminFichier);
 
         std::cout << "Connexion au serveur " << ip << std::endl;
-        controller.connect(ip);
-
         controller.sendFile(cheminFichier.c_str());
     }
     else

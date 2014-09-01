@@ -41,7 +41,10 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
     FILE * f = NULL;
     f = fopen(file, "rb");
     if(f == NULL)
+    {
+        printf("Erreur fichier null!\n");
         return Error_file;
+    }
     COMP_S outComp;
     Socket::Status statsend;
     size_t readSize;
@@ -61,6 +64,7 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
     if(statsend != Socket::Done)
     {
         delete message.data;
+        printf("Erreur premier paquet!\n");
         return Error_socket;
     }
 
@@ -72,12 +76,18 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
     {
         outComp = compress.compress_char_array(temp, readSize, message.data, packetSize * 2, &(message.dataSize));
         if(outComp != NP)
+        {
+            printf("Erreur outComp!\n");
             break;
+        }
         packet.clear();
         packet.appendData(message);
         statsend = socket.send(packet);
         if(statsend != Socket::Done)
+        {
+            printf("Erreur envoie message!\n");
             break;
+        }
     }
 
     packet.clear();
@@ -93,6 +103,7 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
         return Error;
     if(statsend != Socket::Done)
         return Error;
+    printf("NICE!\n");
     return Ok;
 }
 
@@ -105,6 +116,7 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
     Socket::Status status = socket.receive(packet);
     if(status != Socket::Done)
     {
+        printf("Erreur premier packet\n");
         return Error_socket;
     }
     char *temp = new char(packetSize);
@@ -127,6 +139,7 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
         delete temp;
         delete message.data;
         delete name;
+        printf("File == NULL!\n");
         return Error_file;
     }
 
@@ -134,12 +147,20 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
     {
         status = socket.receive(packet);
         if(status != Socket::Done)
+        {
+            printf("Erreur réception paquet!\n");
             break;
+        }
         packet.readData(message);
         if(message.type == PACKET_DATA)
         {
             outComp = compress.uncompress_char_array(message.data, message.dataSize,
                                                      temp, packetSize, &outSize);
+            if(outComp != NP)
+            {
+                printf("Erreur outComp!\n");
+                break;
+            }
             fwrite(temp, 1, outSize, f);
         }
     }while(message.type != PACKET_END);
@@ -151,6 +172,7 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
     fclose(f);
     if(status != Socket::Done)
         return Error;
+    printf("NICE!\n");
     return Ok;
 }
 
