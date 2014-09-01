@@ -114,44 +114,7 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
     return Ok;
 }
 
-<<<<<<< HEAD
 STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression_level)
 {
     return ERROR_BUFFEROVERFLOW;
 }
-=======
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 079aef8c533a56ce47ff4d67adb94d94ace1a084
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

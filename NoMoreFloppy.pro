@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     miniz.c \
     compress.cpp \
     Controller.cpp \
-<<<<<<< HEAD
+<<<<<<< HEAD \
+    ChristmasPacket.cpp
     vueconsole.cpp
 =======
     ChristmasPacket.cpp
@@ -41,7 +42,8 @@ linux-g++
 HEADERS += \
     compress.h \
     Controller.h \
-<<<<<<< HEAD
+<<<<<<< HEAD \
+    ChristmasPacket.h
     vueconsole.h
 =======
     ChristmasPacket.h
