@@ -1,6 +1,8 @@
 #ifndef CHRISTMASPACKET_H
 #define CHRISTMASPACKET_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <SFML/Network/Packet.hpp>
 #include <inttypes.h>
 

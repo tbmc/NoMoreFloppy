@@ -10,6 +10,8 @@
 #include "compress.h"
 #include "ChristmasPacket.h"
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define DEFAULT_PORT (25666)
 #define DEFAULT_IP "127.0.0.1"
 
