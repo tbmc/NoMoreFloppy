@@ -36,9 +36,10 @@ void VueConsole::init()
         std::cout << "Attente d'une connection!" << std::endl;
         controller.serverWaitConnection();
         std::cout << "Attente du fichier" << std::endl;
-        std::string str;
+        std::string str("/home/tbmc/");
         std::cout << "Chemin du dossier : " << std::endl;
-        std::cin >> str;
+        //DEBUG
+        //std::cin >> str;
         controller.receiveFile(str.c_str());
     }
 
