@@ -14,7 +14,7 @@ private:
 public:
     void init();
     VueConsole();
-    static bool isIpCorrect(char ip[]);
+    static bool isIpCorrect(const char *ip);
     static void correctionCheminFichier(std::string fichier);
 };
 

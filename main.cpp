@@ -5,8 +5,10 @@
 
 #include "compress.h"
 #include <string.h>
+#include <QApplication>
+#include "vuegui.h"
 
-int main()
+int main(int argc, char *argv[])
 {
 
 //    Compress compress;
@@ -18,8 +20,13 @@ int main()
 //    compress.uncompress_char_array(b, e, c, 500, &f);
 //    printf("%d %d %d\n\n", strlen(a), e, f);
 
-    VueConsole vue;
-    vue.init();
+//    VueConsole vue;
+//    vue.init();
 
-    return 0;
+    QApplication app(argc, argv);
+
+    VueGUI v;
+    v.show();
+
+    return app.exec();
 }
