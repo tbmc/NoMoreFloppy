@@ -44,7 +44,7 @@ void VueConsole::init()
 
 }
 
-bool VueConsole::isIpCorrect(char ip[])
+bool VueConsole::isIpCorrect(const char *ip)
 {
     bool isCorrect = true;
     bool isCorrect2 = true;
