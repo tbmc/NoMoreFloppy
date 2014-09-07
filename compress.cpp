@@ -22,8 +22,10 @@ COMP_S Compress::compress_char_array(const char *in, uInt inSize,
 {
     int outDef;
     z_stream defstream;
-    defstream.zalloc = Z_NULL;
-    defstream.zfree = Z_NULL;
+    //defstream.zalloc = Z_NULL;
+    defstream.zalloc = malloc;
+    //defstream.zfree = Z_NULL;
+    defstream.zfree = free;
     defstream.opaque = Z_NULL;
 
     defstream.avail_in = (uInt) inSize;
@@ -73,3 +75,8 @@ COMP_S Compress::uncompress_char_array(const char *in, uInt inSize,
     *outSize = infstream.total_out;
     return NP;
 }
+
+
+
+
+

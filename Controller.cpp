@@ -10,10 +10,10 @@ Controller::~Controller()
 {
 }
 
-STATUT Controller::connect(const char *ip, uShort port, Int32 timeout)
+STATUT Controller::connect(const char *ip, uShort port)
 {
     socket.disconnect();
-    if(socket.connect(ip, port, sf::milliseconds(timeout)) != Socket::Done)
+    if(socket.connect(ip, port) != Socket::Done)
         return Error_socket;
     return Ok;
 }
@@ -39,7 +39,6 @@ STATUT Controller::sendFile(const char *file, uInt32 packetSize, int compression
     if(compress.setCompressionLevel(compression_level) != NP)
         return Error;
     FILE * f = NULL;
-    printf("FICHIER : %s\n", file);
     f = fopen(file, "rb");
     if(f == NULL)
     {
@@ -179,3 +178,35 @@ STATUT Controller::receiveFile(const char *folderpath, uInt32 packetSize)
     printf("NICE!\n");
     return Ok;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

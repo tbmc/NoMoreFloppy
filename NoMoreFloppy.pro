@@ -1,17 +1,14 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG += qt
-
-QT += widgets
+CONFIG -= qt
 
 SOURCES += main.cpp \
     miniz.c \
     compress.cpp \
     Controller.cpp \
     ChristmasPacket.cpp \
-    vueconsole.cpp \
-    vuegui.cpp
+    vueconsole.cpp
 
 OTHER_FILES += \
     .gitignore
@@ -42,8 +39,4 @@ HEADERS += \
     compress.h \
     Controller.h \
     ChristmasPacket.h \
-    vueconsole.h \
-    vuegui.h
-
-FORMS += \
-    vuegui.ui
+    vueconsole.h

@@ -16,7 +16,6 @@
 
 #define DEFAULT_PORT (25666)
 #define DEFAULT_IP "127.0.0.1"
-#define DEFAULT_TIMEOUT (5000)
 
 #define PACKET_DATA (0)
 #define PACKET_INFORMATION (1)
@@ -50,7 +49,7 @@ public:
     ~Controller();
 
     // Contrôle de la connection
-    STATUT connect(const char *ip, uShort port = DEFAULT_PORT, sf::Int32 timeout = DEFAULT_TIMEOUT);
+    STATUT connect(const char *ip, uShort port = DEFAULT_PORT);
     STATUT serverWaitConnection(uShort port = DEFAULT_PORT);
     void disconnect();
 
