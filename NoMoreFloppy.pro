@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     compress.cpp \
     Controller.cpp \
     ChristmasPacket.cpp \
-    vueconsole.cpp
+    vueconsole.cpp \
+    vuegui.cpp
 
 OTHER_FILES += \
     .gitignore
@@ -39,4 +40,8 @@ HEADERS += \
     compress.h \
     Controller.h \
     ChristmasPacket.h \
-    vueconsole.h
+    vueconsole.h \
+    vuegui.h
+
+FORMS += \
+    vuegui.ui
