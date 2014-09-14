@@ -8,14 +8,19 @@ VueGUI::VueGUI(QWidget *parent) :
     ui->setupUi(this);
     this->setState("clientserveur");
     this->ui->connectButton->setEnabled(false);
+
+    this->groupesDeWidgets.push_back(this->ui->clientserveur);
+    this->groupesDeWidgets.push_back(this->ui->groupConnexion);
+
+    this->setState("clientserveur");
 }
 
 VueGUI::~VueGUI()
 {
     delete ui;
-    this->secondaryThread->join();
     if (this->secondaryThread != NULL)
     {
+        this->secondaryThread->join();
         delete this->secondaryThread;
     }
 }
@@ -28,10 +33,22 @@ QString VueGUI::getState() const
 void VueGUI::setState(const QString &value)
 {
     state = value;
-    this->ui->clientserveur->hide();
+    this->cacherGroupesDeWidgets();
     if(QString::compare(value, "clientserveur", Qt::CaseInsensitive) == 0)
     {
         this->ui->clientserveur->show();
+    }
+    if(QString::compare(value, "connexion", Qt::CaseInsensitive) == 0)
+    {
+        this->ui->groupConnexion->show();
+    }
+}
+
+void VueGUI::cacherGroupesDeWidgets()
+{
+    for (unsigned int i = 0; i < this->groupesDeWidgets.size(); i++)
+    {
+        this->groupesDeWidgets.at(i)->hide();
     }
 }
 
@@ -47,6 +64,7 @@ void VueGUI::threadConnexion()
     else
     {
         std::cout << "Erreur : " << t << std::endl;
+        this->setState("clientserveur");
     }
 }
 
@@ -69,4 +87,5 @@ void VueGUI::ipChange(QString newIp)
 void VueGUI::on_connectButton_clicked()
 {
     this->secondaryThread = new std::thread(&VueGUI::threadConnexion, this);
+    this->setState("connexion");
 }

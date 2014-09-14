@@ -3,7 +3,9 @@
 
 #include <QWidget>
 #include <QMessageBox>
+#include <QGroupBox>
 #include <QString>
+#include <vector>
 #include <thread>
 #include <mutex>
 #include "Controller.h"
@@ -31,6 +33,9 @@ private:
     std::mutex mutex;
     std::thread *secondaryThread;
 
+    std::vector<QGroupBox*> groupesDeWidgets;
+
+    void cacherGroupesDeWidgets();
     void threadConnexion();
 
 public slots:
