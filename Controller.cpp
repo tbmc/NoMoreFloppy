@@ -35,7 +35,8 @@ void Controller::disconnect()
 {
     socket.disconnect();
 }
-STATUS Controller::sendFileRequest(const char *path)
+
+STATUS Controller::sendFileRequest(const char *path, uInt32 packetSize)
 {
     // Stockage du nom, du chemin et de la taille du fichier
     if(fichier == NULL)
@@ -47,6 +48,7 @@ STATUS Controller::sendFileRequest(const char *path)
     fseek(fichier->file, 0, SEEK_END);
     fichier->filesize = ftell(fichier->file);
     fclose(fichier->file);
+    fichier->packetSize = packetSize;
     fichier->path = new char(strlen(path) + 1);
     strcpy(fichier->path, path);
     const char *na = strrchr(path, '/');
@@ -56,13 +58,18 @@ STATUS Controller::sendFileRequest(const char *path)
         na++;
     fichier->name = new char(strlen(na) + 1);
     strcpy(fichier->name, na);
+
     // Envoie de la demande
     ChristmasPacket paquet;
-    paquet << fichier->filesize << string(fichier->name);
+    //Packet paquet;
+    paquet << fichier->filesize;
+    paquet << fichier->packetSize;
+    paquet << string(fichier->name);
     Socket::Status statsend;
     statsend = socket.send(paquet);
     if(statsend != Socket::Done)
         return Error_socket;
+
     // Réception de la réponse
     SocketSelector selector;
     selector.add(socket);
@@ -79,6 +86,8 @@ STATUS Controller::sendFileRequest(const char *path)
     else
         return File_refused;
 }
+
+/*
 STATUS Controller::receiveFileRequest(const char *folderpath, Answer &answer)
 {
     Socket::Status stat;
@@ -91,9 +100,8 @@ STATUS Controller::receiveFileRequest(const char *folderpath, Answer &answer)
         delete fichier;
     // Parsing de la demande
     string name, chemin("");
-    uInt32 filesize;
-    paquet >> filesize;
-    paquet >> name;
+    uInt32 filesize, packetSize;
+    paquet >> filesize >> packetSize >> name;
     // Demande si l'utilisateur veut recevoir le fichier
     bool response = answer.acceptFile(name.c_str(), filesize);
     // Envoie de la réponse de l'utilisateur
@@ -107,6 +115,7 @@ STATUS Controller::receiveFileRequest(const char *folderpath, Answer &answer)
     // Stockage du fichier à recevoir
     fichier = new Fichier;
     fichier->filesize = filesize;
+    fichier->packetSize = packetSize;
     fichier->name = new char(name.length() + 1);
     strcpy(fichier->name, name.c_str());
     chemin = folderpath;
@@ -117,6 +126,92 @@ STATUS Controller::receiveFileRequest(const char *folderpath, Answer &answer)
     strcpy(fichier->path, chemin.c_str());
     return Ok;
 }
+*/
+
+STATUS Controller::receiveFile()
+{
+    fichier->file = fopen(fichier->path, "wb");
+    if(fichier->file == NULL)
+        return Error_file;
+    COMP_S comp;
+    Socket::Status status;
+    size_t outSize;
+    ChristmasPacket packet;
+    Message message;
+    message.data = new char(fichier->packetSize * 2);
+    char *temp = new char(fichier->packetSize * 2);
+    do
+    {
+        status = socket.receive(packet);
+        if(status != Socket::Done)
+            break;
+        packet >> message;
+        if(message.type == PACKET_DATA)
+        {
+            comp = compress.uncompress_char_array(message.data, message.dataSize,
+                                        temp, fichier->packetSize * 2, &outSize);
+            if(comp != NP)
+                break;
+            fwrite(temp, 1, outSize, fichier->file);
+            fflush(fichier->file);
+        }
+    }
+    while(message.type != PACKET_END);
+    delete temp;
+    delete message.data;
+    fflush(fichier->file);
+    fclose(fichier->file);
+    if(status != Socket::Done)
+        return Error_socket;
+    if(comp != NP)
+        return Error_compression;
+    return Ok;
+}
+
+STATUS Controller::sendFile(int compression_level)
+{
+    if(compress.setCompressionLevel(compression_level) != NP)
+        return Error;
+    fichier->file = fopen(fichier->path, "rb");
+    if(fichier->file == NULL)
+        return Error_file;
+    COMP_S comp;
+    Socket::Status status;
+    size_t readsize;
+    ChristmasPacket packet;
+    Message message;
+    message.data = new char(fichier->packetSize * 2);
+    message.dataSize = 0;
+    message.type = PACKET_DATA;
+    char *temp = new char(fichier->packetSize * 2);
+    while((readsize = fread(temp, 1, fichier->packetSize, fichier->file)) > 0)
+    {
+        comp = compress.compress_char_array(temp, readsize, message.data,
+                           fichier->packetSize * 2, &(message.dataSize));
+        if(comp == NP)
+            break;
+        packet.clear();
+        packet << message;
+        status = socket.send(packet);
+        if(status)
+            break;
+    }
+    packet.clear();
+    message.type = PACKET_END;
+    message.dataSize = 0;
+    packet << message;
+    socket.send(packet);
+    delete temp;
+    delete message.data;
+    fclose(fichier->file);
+    if(comp != NP)
+        return Error_compression;
+    if(status != Socket::Done)
+        return Error_socket;
+    return Ok;
+}
+
+/*
 STATUS Controller::sendFile(const char *file, uInt32 packetSize, int compression_level)
 {
     if(compress.setCompressionLevel(compression_level) != NP)
@@ -188,6 +283,8 @@ STATUS Controller::sendFile(const char *file, uInt32 packetSize, int compression
     printf("NICE!\n");
     return Ok;
 }
+*/
+
 STATUS Controller::receiveFile(const char *folderpath, uInt32 packetSize)
 {
     FILE * f = NULL;

@@ -7,6 +7,7 @@
 
 #include <SFML/Network/Packet.hpp>
 #include <inttypes.h>
+#include <string>
 
 typedef uint32_t uInt32;
 
@@ -34,6 +35,74 @@ public:
     // Only read this with this instance!
     void readData(Message &m);
 
+    //Doivent être utilisé une seule fois par instance à chaque appel de clear()
+    ChristmasPacket& operator <<(Message &message)
+    {
+        appendData(message);
+    }
+    ChristmasPacket& operator <<(uInt32 i)
+    {
+        Packet::operator <<(i);
+    }
+    ChristmasPacket& operator <<(std::string &str)
+    {
+        Packet::operator <<(str);
+    }
+    ChristmasPacket& operator <<(bool b)
+    {
+        Packet::operator <<(b);
+    }
+
+    ChristmasPacket& operator >>(Message &message)
+    {
+        readData(message);
+    }
+    ChristmasPacket& operator >>(uInt32 &i)
+    {
+        Packet::operator >>(i);
+    }
+    ChristmasPacket& operator >>(std::string &str)
+    {
+        Packet::operator >>(str);
+    }
+    ChristmasPacket& operator >>(bool &b)
+    {
+        Packet::operator >>(b);
+    }
+
+
+
+
+
+
+
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif // CHRISTMASPACKET_H

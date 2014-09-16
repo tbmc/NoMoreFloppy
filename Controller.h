@@ -37,13 +37,15 @@ enum STATUS
     Error_socket,
     Error_bufferoverflow,
     Error_file,
-    File_refused
+    File_refused,
+    Error_compression
 };
 
 class Fichier {
 public:
     FILE * file;
     uInt32 filesize;
+    uInt32 packetSize;
     char * name;
     char * path;
     ~Fichier();
@@ -52,7 +54,7 @@ public:
 class Answer
 {
 public:
-    virtual bool acceptFile(const char *filename, uInt32 filesize) = 0;
+    virtual bool acceptFile(const char *filename, uInt32 filesize, uInt32 packetSize) = 0;
 };
 
 class Controller {
@@ -60,21 +62,23 @@ private:
     sf::TcpSocket socket;
     Compress compress;
     Fichier *fichier = NULL;
+
 public:
     Controller();
     ~Controller();
+
     // Contrôle de la connection
     STATUS connect(const char *ip, uShort port = DEFAULT_PORT, uInt32 timeout = DEFAULT_TIMEOUT);
     STATUS serverWaitConnection(uShort port = DEFAULT_PORT);
     void disconnect();
-    //Demande d'envoie de fichier
-    STATUS sendFileRequest(const char *path);
-    STATUS receiveFileRequest(const char *folderpath, Answer &answer);
-    //Envoie et réception de fichier
-    STATUS sendFile(const char *file, uInt32 packetSize = DEFAULT_PACKET_SIZE,
-                    int compression_level = DEFAULT_COMPRESSION_LEVEL);
-    STATUS receiveFile(const char *folderpath, uInt32 packetSize = DEFAULT_PACKET_SIZE);
 
+    //Demande d'envoie de fichier
+    STATUS sendFileRequest(const char *path, uInt32 packetSize = DEFAULT_PACKET_SIZE);
+    STATUS receiveFileRequest(const char *folderpath, Answer &answer);
+
+    //Envoie et réception de fichier
+    STATUS sendFile(int compression_level = DEFAULT_COMPRESSION_LEVEL);
+    STATUS receiveFile();
 
 };
 
